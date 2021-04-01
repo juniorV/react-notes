@@ -1,0 +1,15 @@
+.note {
+	text-align: left;
+	padding: 15px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	cursor: pointer;
+	transition: all .3s ease;
+}
+
+.note.active,
+.note:hover {
+	background-color: #E7CC6B;
+	color: #252525;
+}

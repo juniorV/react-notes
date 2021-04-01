@@ -1,0 +1,11 @@
+.notesWrapper {
+	display: flex;
+	flex-direction: column;
+	background-color: #252525;
+	color: #fff;
+}
+
+.notes {
+	overflow: auto;
+	height: 305px;
+}
