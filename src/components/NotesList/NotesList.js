@@ -11,14 +11,13 @@ const NotesList = function(props) {
 	const notes = useSelector(getSortedNotes);
 	const filteredPhrase = useSelector(getSearchPhrase);
 	const filteredNotes = filteredPhrase ? notes.filter(
-		(note) => note.title.toLowerCase().includes(filteredPhrase) ||
-			note.text.toLowerCase().includes(filteredPhrase)) : notes;
-
+		(note) => note.get('title').toLowerCase().includes(filteredPhrase) ||
+			note.get('text').toLowerCase().includes(filteredPhrase)) : notes;
 
 	return <div className={s.notesWrapper}>
 		<div className={s.notes}>
-				{filteredNotes.length
-					? filteredNotes.map(note => <NoteLink key={note.id} note={note}/>)
+				{filteredNotes.size
+					? filteredNotes.map(note => <NoteLink key={note.get('id')} note={note}/>)
 					: <div className='message'>There are no notes.</div>
 				}
 		</div>

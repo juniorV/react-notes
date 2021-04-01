@@ -9,17 +9,17 @@ const NoteContent = function(props) {
 	const dispatch = useDispatch();
 
 	const changeTitle = (title) => {
-		dispatch(updateNote({...note, title: title}));
+		dispatch(updateNote(note.set('title', title)));
 	}
 	const changeText = (text) => {
-		dispatch(updateNote({...note, text: text}));
+		dispatch(updateNote(note.set('text', text)));
 	}
 
 	return <>
 		{note &&
 		<div className={s.content}>
-			<input type="text" value={note.title} onChange={e => changeTitle(e.currentTarget.value)}/>
-			<textarea rows="10" value={note.text} onChange={(e) => changeText(e.currentTarget.value)}/>
+			<input type="text" value={note.get('title')} onChange={e => changeTitle(e.currentTarget.value)}/>
+			<textarea className={s.text} rows="10" value={note.get('text')} onChange={(e) => changeText(e.currentTarget.value)}/>
 		</div>}
 	</>
 };

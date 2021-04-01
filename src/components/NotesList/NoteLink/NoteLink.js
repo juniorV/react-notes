@@ -10,8 +10,8 @@ const NoteLink = function({note}) {
 	const setCurrent = () => {
 		dispatch(setCurrentNote(note));
 	}
-	return <div className={s.note +  (currentNote === note.id ? ' ' + s.active : '')} onClick={setCurrent}>
-		{note.title}
+	return <div className={s.note +  (currentNote === note.get('id') ? ' ' + s.active : '')} onClick={setCurrent}>
+		{note.get('title')}
 	</div>;
 };
 

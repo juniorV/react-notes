@@ -3,7 +3,7 @@ import {
 	SET_CURRENT_NOTE, SET_SEARCH_PHRASE,
 	UPDATE_NOTE,
 } from '../constants/notesConstants';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 const initialState = fromJS({
 	notesList: [
@@ -11,27 +11,27 @@ const initialState = fromJS({
 			id: '_testid1',
 			title: 'Test title 1',
 			text: 'Test description 1',
-			date: +new Date()
+			date: +new Date(),
 		}, {
 			id: '_testid2',
 			title: 'test Title 2',
 			text: 'Test description 2',
-			date: +new Date() + 1
+			date: +new Date() + 1,
 		}, {
 			id: '_testid3',
 			title: 'test Title 3',
 			text: 'Test description 3',
-			date: +new Date() + 2
+			date: +new Date() + 2,
 		}, {
 			id: '_testid4',
 			title: 'test Title 4',
 			text: 'Test description 4',
-			date: +new Date() + 3
+			date: +new Date() + 3,
 		}, {
 			id: '_testid5',
 			title: 'test Title 5',
 			text: 'Test description 5',
-			date: +new Date() + 4
+			date: +new Date() + 4,
 		}],
 	currentNote: null,
 	searchPhrase: '',
@@ -44,30 +44,21 @@ const ID = function() {
 export const notesReducer = (notes = initialState, action) => {
 	switch (action.type) {
 		case SET_SEARCH_PHRASE:
-			return {...notes, searchPhrase: action.payload};
+			return notes.set('searchPhrase', action.payload);
 		case SET_CURRENT_NOTE:
-			return {...notes, currentNote: action.payload.id};
+			return notes.set('currentNote', action.payload.get('id'));
 		case ADD_NOTE:
 			const newId = ID();
-			return {
-				...notes,
-				notesList: [...notes.notesList, {...action.payload, id: newId, date: +new Date()}],
-				currentNote: newId,
-			};
+			return notes.update('notesList', list => list.push(
+				Map({...action.payload, id: newId, date: +new Date()})))
+				.set('currentNote', newId);
 		case REMOVE_NOTE:
-			return {
-				...notes,
-				notesList: notes.notesList.filter(
-					note => note.id !== action.payload),
-			};
+			return notes.update('notesList',
+				list => list.filter(n => n.get('id') !== action.payload));
 		case UPDATE_NOTE:
-			return {
-				...notes,
-				notesList: notes.notesList.map(
-					note => note.id === action.payload.id
-						? {...note, ...action.payload, date: +new Date()}
-						: note),
-			};
+			return notes.update('notesList', list => list.map(
+				n => n.get('id') === action.payload.get('id') ? n.merge(
+					action.payload.set('date', +new Date())) : n));
 		default:
 			return notes;
 	}

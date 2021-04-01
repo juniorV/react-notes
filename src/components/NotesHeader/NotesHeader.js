@@ -14,7 +14,7 @@ function NotesHeader(props) {
 	};
 
 	const removeNoteFn = () => {
-		dispatch(removeNote(currentNote.id));
+		dispatch(removeNote(currentNote.get('id')));
 	};
 
 	return <div className='wrapper'>
